@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Layout from './components/Layout/Layout'
 class App extends Component {
   render() {
     return (
-      <div>
+      <Fragment>
         <Layout>
           <p>test</p>
         </Layout>
-      </div>
+      </Fragment>
     )
   }
 }
