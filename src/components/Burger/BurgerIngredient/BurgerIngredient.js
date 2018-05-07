@@ -38,7 +38,6 @@ class BurgerIngredient extends Component {
         break
       default:
     }
-    console.log('el ingrediente', ingredient)
     return ingredient
   }
 }
