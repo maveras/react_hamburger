@@ -3,9 +3,9 @@ import Burger from '../components/Burger/Burger'
 import BuildControls from '../components/Burger/BuildControls/BuildControls'
 const INGREDIENTS_PRICES = {
   salad: 0.5,
-  cheese: 0.4,
+  bacon: 0.9,
+  chesse: 0.4,
   meat: 1.3,
-  bacon: 0.9
 }
 class BurgerBuilder extends Component {
   state = {
@@ -61,10 +61,12 @@ class BurgerBuilder extends Component {
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0
     }
+    console.log('el valore', this.state.ingredients)
     return (
       <Fragment>
         <Burger ingredients={this.state.ingredients}></Burger>
         <BuildControls
+          price={this.state.totalPrice}
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}>
