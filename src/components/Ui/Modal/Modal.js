@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import classes from './Modal.css'
+import Backdrop from '../Backdrop/Backdrop'
 const modal = (props) => (
-  <div
-    className={classes.Modal}
-    style={{
-      transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-      opacity: props.show ? '1' : '0'
+  <Fragment>
+    <Backdrop show={props.show} closedModal={props.modalClosed}></Backdrop>
+    <div
+      className={classes.Modal}
+      style={{
+        transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
+        opacity: props.show ? '1' : '0'
       }}>
-    {props.children}
-  </div>
+      {props.children}
+    </div>
+  </Fragment>
 )
 
 export default modal
