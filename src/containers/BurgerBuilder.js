@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from 'react'
 import Burger from '../components/Burger/Burger'
 import BuildControls from '../components/Burger/BuildControls/BuildControls'
+import Modal from '../components/Ui/Modal/Modal'
+import OrderSummary from '../components/Burger/OrderSummary/OrderSummary'
 const INGREDIENTS_PRICES = {
   salad: 0.5,
   bacon: 0.9,
@@ -16,13 +18,11 @@ class BurgerBuilder extends Component {
       meat: 1
     },
     totalPrice: 4,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
   }
 
-  updatePurchaseUpdate = () => {
-    const ingredients = {
-      ...this.state.ingredients
-    }
+  updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
       .map(ingKey => {
         return ingredients[ingKey]
@@ -30,11 +30,17 @@ class BurgerBuilder extends Component {
       .reduce((sum, el) => {
         return sum + el
       },0)
-    const state = {...this.state}
-    console.log(state)
-    state.purchasable = sum > 0
+    // const state = {...this.state}
+    // console.log('la suma', sum)
+    // state.purchasable = sum > 0
     this.setState({
-      purchasable: state.purchasable
+      purchasable: sum > 0
+    })
+  }
+
+  purchaseHandler = () => {
+    this.setState({
+      purchasing: true
     })
   }
   addIngredientHandler = (type) => {
@@ -50,13 +56,14 @@ class BurgerBuilder extends Component {
     this.setState({
       totalPrice: newPrice, ingredients: updatedIngredients
     })
+    this.updatePurchaseState(updatedIngredients)
+
   }
   disabledButton = (ingredient) => {
     let disabledInfo = {...this.state.ingredients}
       for (let key in disabledInfo) {
         disabledInfo[key] = disabledInfo[key] <= 0
       }
-      console.log('desabilitooo', disabledInfo[ingredient])
       return disabledInfo[ingredient]
     }
   removeIngredientHandler = (type) => {
@@ -75,6 +82,7 @@ class BurgerBuilder extends Component {
     this.setState({
       totalPrice: newPrice, ingredients: updatedIngredients
     })
+    this.updatePurchaseState(updatedIngredients)
   }
   render () {
     const disabledInfo = { ...this.state.ingredients }
@@ -85,12 +93,17 @@ class BurgerBuilder extends Component {
       <Fragment>
         <Burger ingredients={this.state.ingredients}></Burger>
         <BuildControls
+          orderer={this.purchaseHandler}
           price={this.state.totalPrice}
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
-          order={this.updatePurchaseUpdate}>
+          order={this.updatePurchaseState}
+          purchasable={this.state.purchasable}>
         </BuildControls>
+        <Modal show={this.state.purchasing}>
+          <OrderSummary ingredients={this.state.ingredients}></OrderSummary>
+        </Modal>
       </Fragment>
     )
   }
