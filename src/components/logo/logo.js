@@ -3,7 +3,7 @@ import logoImg from '../../assets/images/burger-logo.png'
 import classes from './Logo.css'
 const logo = () => (
   <div className={classes.Logo}>
-    <img src={logoImg} alt="burgerLogo"/>
+    <img src={logoImg} alt="MyBurger"/>
   </div>
 )
 
