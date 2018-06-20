@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Toolbar.css'
-import Logo from '../../logo/logo'
+import Logo from '../../Logo/logo'
 import NavigationItems from '../NavigationItems/NavigationItems.js'
 
 const toolbar = (props) => (

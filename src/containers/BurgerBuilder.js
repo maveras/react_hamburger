@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import Burger from '../components/Burger/Burger'
 import BuildControls from '../components/Burger/BuildControls/BuildControls'
-import Modal from '../components/Ui/Modal/Modal'
+import Modal from '../components/UI/Modal/Modal'
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary'
 const INGREDIENTS_PRICES = {
   salad: 0.5,
