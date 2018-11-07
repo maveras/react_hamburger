@@ -70,19 +70,18 @@ class ContactData extends Component {
   // componentDidMount () {
   //   console.log('me monteeee', this.props)
   // }
+
   orderHandler = e => {
     e.preventDefault();
     this.setState({ loading: true });
-    const order = {
-      ingredients: this.props.ingredients,
-      price: this.props.totalPrice,
-      customer: {
-        email: "test@test.com"
-      },
-      deliveryMethod: "fastest"
-    };
+    const order = this.state.orderForm
+    let toSubmitOrder = {}
+    for (let index in order) {
+      toSubmitOrder[index] = order[index].value
+    }
+    console.log(toSubmitOrder)
     axios
-      .post("https://react-hamburger-89ecb.firebaseio.com/orders.json", order)
+      .post("https://react-hamburger-89ecb.firebaseio.com/orders.json", toSubmitOrder)
       .then(response => {
         this.setState({ loading: false });
         this.props.history.push("/");
@@ -91,6 +90,17 @@ class ContactData extends Component {
         this.setState({ loading: false });
       });
   };
+
+  inputChangedHanlder = (event, inputIdentifier) => {
+    let updateOrderForm = {...this.state.orderForm}
+    // newOrderForm[inputIdentifier].value = event.target.value
+    // this.setState({ orderForm: newOrderForm })
+    let updatedElement = { ...updateOrderForm[inputIdentifier]}
+    // console.log(event.target.value)
+    updatedElement.value = event.target.value
+    updateOrderForm[inputIdentifier] = updatedElement
+    this.setState({ orderForm: updateOrderForm })
+  }
   render() {
     const formElementsArray = [];
     for (let key in this.state.orderForm) {
@@ -99,13 +109,13 @@ class ContactData extends Component {
         config: this.state.orderForm[key]
       });
     }
-    let form = (
-      <div className={classes.ContactData}>
+    let form = <div className={classes.ContactData}>
         <h4>Enter your contact data</h4>
-        <form action="">
+        <form onSubmit= {this.orderHandler}>
           {formElementsArray.map(formElement => (
             <Input
               key={formElement.id}
+              changed={(event) => this.inputChangedHanlder(event, formElement.id)}
               elementType={formElement.config.elementType}
               elementConfig={formElement.config.elementConfig}
               value={formElement.config.value}
@@ -115,8 +125,7 @@ class ContactData extends Component {
             ORDER
           </Button>
         </form>
-      </div>
-    );
+      </div>;
     return this.state.loading ? <Spinner /> : form;
   }
 }
