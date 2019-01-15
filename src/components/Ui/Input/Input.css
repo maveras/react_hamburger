@@ -23,3 +23,8 @@
   font-family: inherit;
   display: block;
 }
+
+.Invalid {
+  border: 1px solid red;
+  background-color: #ec8181
+}
